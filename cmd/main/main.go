@@ -42,3 +42,15 @@ func addTask(c *gin.Context) {
 	c.IndentedJSON(http.StatusCreated, newTask)
 
 }
+
+//GET Request syntax:
+// curl http://localhost:8080/tasks \
+//     --header "Content-Type: application/json" \
+//     --request "GET"
+
+//POST dummy data
+// curl http://localhost:8080/tasks \
+//     --include \
+//     --header "Content-Type: application/json" \
+//     --request "POST" \
+//     --data '{"id": "4","name": "DnD","description": "Enable DnD","assigned": "Kyle", "status": "lol"}'
