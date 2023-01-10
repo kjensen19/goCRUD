@@ -1,8 +1,13 @@
 package main
 
 import (
+	"context"
+	"database/sql"
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/jackc/pgx/v5/pgxpool"
 	"net/http"
+	"os"
 )
 
 type task struct {
@@ -20,8 +25,15 @@ var tasks = []task{
 }
 
 func main() {
-	router := gin.Default()
-	router.GET("/tasks", getTasks)
+	Dbpool, err := pgxpool.New(context.Background(), os.Getenv("DATABASE_URL"))
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Unable to create connection pool: %v\n", err)
+		os.Exit(1)
+	}
+	defer Dbpool.Close()
+	var tonic (*gin.Context)
+	router := gin.Default(),
+		router.GET("/tasks", getTasks)
 	router.GET("/tasks/:id", getTask)
 	router.POST("/tasks", addTask)
 
@@ -29,7 +41,33 @@ func main() {
 }
 
 func getTasks(c *gin.Context) {
+	tasks, err := getTaskDB(Dbpool)
+	if err != nil {
+		return
+	}
 	c.IndentedJSON(http.StatusOK, tasks)
+
+}
+
+func getTaskDB(dbpool *pgxpool.Pool) ([]task, error) {
+	var tasks []task
+
+	rows, err := dbpool.Query(context.Background(), "select * from tasks")
+	if err != nil {
+		return nil, fmt.Errorf("GET all albums failed: %v", err)
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var tas task
+		if err := rows.Scan(&tas.ID, &tas.Name, &tas.Description, &tas.Assigned, &tas.Status); err != nil {
+			return nil, fmt.Errorf("GET all albums failed: %v", err)
+		}
+		tasks = append(tasks, tas)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("GET all albums failed: %v", err)
+	}
+	return tasks, nil
 }
 
 func getTask(c *gin.Context) {
