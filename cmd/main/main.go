@@ -31,20 +31,21 @@ func main() {
 		os.Exit(1)
 	}
 	defer Dbpool.Close()
-	var tonic (*gin.Context)
+
 	router := gin.Default(),
-		router.GET("/tasks", getTasks)
+
+
+	router.GET("/tasks", getTasks)
 	router.GET("/tasks/:id", getTask)
 	router.POST("/tasks", addTask)
 
 	router.Run("localhost:8080")
 }
 
+func masterTask(dbpool *pgxpool.Pool)
+	 task, err := getTaskDB(dbpool)
+
 func getTasks(c *gin.Context) {
-	tasks, err := getTaskDB(Dbpool)
-	if err != nil {
-		return
-	}
 	c.IndentedJSON(http.StatusOK, tasks)
 
 }
