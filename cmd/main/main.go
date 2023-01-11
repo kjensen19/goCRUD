@@ -2,12 +2,14 @@ package main
 
 import (
 	"context"
+	"database/sql"
 	// "database/sql"
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"github.com/jackc/pgx/v5/pgxpool"
 	"net/http"
 	"os"
+
+	"github.com/gin-gonic/gin"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 type Task struct {
@@ -49,14 +51,17 @@ func main() {
 
 	router := gin.Default()
 
-	// router.GET("/tasks/:id", getTask)
+	router.GET("/tasks/:id", getByIdHandler(dbpool))
 	// router.POST("/tasks", addTask)
-	router.GET("/tasks", getHandler(dbpool))
+	router.GET("/tasks", getAllHandler(dbpool))
 	router.Run("localhost:8080")
 
 }
 
-func getHandler(dbpool *pgxpool.Pool) gin.HandlerFunc {
+//HANDLERS
+
+// GET Handler
+func getAllHandler(dbpool *pgxpool.Pool) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
 		tasks, err := getAllTasks(dbpool)
 		if err != nil {
@@ -69,18 +74,37 @@ func getHandler(dbpool *pgxpool.Pool) gin.HandlerFunc {
 	return gin.HandlerFunc(fn)
 }
 
+// GET BY ID Handler
+func getByIdHandler(dbpool *pgxpool.Pool) gin.HandlerFunc {
+	fn := func(c *gin.Context) {
+		id := c.Param("id")
+		task, err := getByIdTask(dbpool, id)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "No such task, task id: %v", id)
+			c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Task not found"})
+			return
+		}
+		fmt.Printf("Task found: %v\n", task)
+		c.IndentedJSON(http.StatusOK, task)
+	}
+	return gin.HandlerFunc(fn)
+}
+
+// TASK FUNCTIONS
+
+// GET ALL TASKS
 func getAllTasks(dbpool *pgxpool.Pool) ([]Task, error) {
 	var tasks []Task
 
 	rows, err := dbpool.Query(context.Background(), "select * from task")
 	if err != nil {
-		return nil, fmt.Errorf("Tasks: %v", err)
+		return nil, fmt.Errorf("tasks: %v", err)
 	}
 	defer rows.Close()
 	for rows.Next() {
 		var tas Task
 		if err := rows.Scan(&tas.ID, &tas.Name, &tas.Description, &tas.Assigned, &tas.Status); err != nil {
-			fmt.Fprintf(os.Stderr, "GET all tasks failed: %v", err)
+			fmt.Fprintf(os.Stderr, "get all tasks failed: %v", err)
 			os.Exit(3)
 		}
 		tasks = append(tasks, tas)
@@ -91,38 +115,18 @@ func getAllTasks(dbpool *pgxpool.Pool) ([]Task, error) {
 	return tasks, nil
 }
 
-// func getTaskDB(dbpool *pgxpool.Pool) ([]task, error) {
-// 	var tasks []task
-
-// 	rows, err := dbpool.Query(context.Background(), "select * from task")
-// 	if err != nil {
-// 		return nil, fmt.Errorf("GET all albums failed: %q %v", rows, err)
-// 	}
-// 	defer rows.Close()
-// 	for rows.Next() {
-// 		var tas task
-// 		if err := rows.Scan(&tas.ID, &tas.Name, &tas.Description, &tas.Assigned, &tas.Status); err != nil {
-// 			return nil, fmt.Errorf("GET all albums failed: %v", err)
-// 		}
-// 		tasks = append(tasks, tas)
-// 	}
-// 	if err := rows.Err(); err != nil {
-// 		return nil, fmt.Errorf("GET all albums failed: %v", err)
-// 	}
-// 	return tasks, nil
-// }
-
-// func getTask(c *gin.Context) {
-// 	id := c.Param("id")
-
-// 	for _, t := range tasks {
-// 		if t.ID == id {
-// 			c.IndentedJSON(http.StatusOK, t)
-// 			return
-// 		}
-// 	}
-// 	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "task not found"})
-// }
+// GET BY ID
+func getByIdTask(dbpool *pgxpool.Pool, id string) (Task, error) {
+	var tas Task
+	row := dbpool.QueryRow(context.Background(), "SELECT * FROM task WHERE id=$1", id)
+	if err := row.Scan(&tas.ID, &tas.Name, &tas.Description, &tas.Assigned, &tas.Status); err != nil {
+		if err == sql.ErrNoRows {
+			return tas, fmt.Errorf("GET by id: %v, no such task", id)
+		}
+		return tas, fmt.Errorf("GET by id %v: %v", id, err)
+	}
+	return tas, nil
+}
 
 // func addTask(c *gin.Context) {
 // 	var newTask task
