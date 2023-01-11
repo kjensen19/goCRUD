@@ -52,7 +52,7 @@ func main() {
 	router := gin.Default()
 
 	router.GET("/tasks/:id", getByIdHandler(dbpool))
-	// router.POST("/tasks", addTask)
+	router.POST("/tasks", postHandler(dbpool))
 	router.GET("/tasks", getAllHandler(dbpool))
 	router.Run("localhost:8080")
 
@@ -86,6 +86,20 @@ func getByIdHandler(dbpool *pgxpool.Pool) gin.HandlerFunc {
 		}
 		fmt.Printf("Task found: %v\n", task)
 		c.IndentedJSON(http.StatusOK, task)
+	}
+	return gin.HandlerFunc(fn)
+}
+
+// POST Handler
+func postHandler(dbpool *pgxpool.Pool) gin.HandlerFunc {
+	fn := func(c *gin.Context) {
+		var newTask Task
+
+		if err := c.BindJSON(&newTask); err != nil {
+			return
+		}
+
+		c.IndentedJSON(http.StatusCreated, newTask)
 	}
 	return gin.HandlerFunc(fn)
 }
@@ -128,6 +142,17 @@ func getByIdTask(dbpool *pgxpool.Pool, id string) (Task, error) {
 	return tas, nil
 }
 
+// POST
+func postTask(tas Task, dbpool *pgxpool.Pool) (int64, error) {
+	var id int64
+	err := dbpool.QueryRow(context.Background(), "INSERT INTO task (name, description, assigned, status) VALUES ($1, $2, $3, $4) RETURNING id;", tas.Name, tas.Description, tas.Assigned, tas.Status).Scan(&id)
+	if err != nil {
+		return 0, fmt.Errorf("postTask: %v", err)
+	}
+
+	return id, nil
+}
+
 // func addTask(c *gin.Context) {
 // 	var newTask task
 
@@ -153,4 +178,4 @@ func getByIdTask(dbpool *pgxpool.Pool, id string) (Task, error) {
 //     --include \
 //     --header "Content-Type: application/json" \
 //     --request "POST" \
-//     --data '{"id": "4","name": "DnD","description": "Enable DnD","assigned": "Kyle", "status": "lol"}'
+//     --data '{Name: "Frontend", Description: "Style the boards", Assigned: "Kyle", Status: "Someday"}'
