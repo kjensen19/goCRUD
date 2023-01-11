@@ -94,12 +94,16 @@ func getByIdHandler(dbpool *pgxpool.Pool) gin.HandlerFunc {
 func postHandler(dbpool *pgxpool.Pool) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
 		var newTask Task
-
 		if err := c.BindJSON(&newTask); err != nil {
 			return
 		}
-
+		id, er := postTask(newTask, dbpool)
+		if er != nil {
+			fmt.Fprintf(os.Stderr, "Task not added: %v", er)
+		}
+		fmt.Printf("task created: %v\n", id)
 		c.IndentedJSON(http.StatusCreated, newTask)
+
 	}
 	return gin.HandlerFunc(fn)
 }
@@ -178,4 +182,4 @@ func postTask(tas Task, dbpool *pgxpool.Pool) (int64, error) {
 //     --include \
 //     --header "Content-Type: application/json" \
 //     --request "POST" \
-//     --data '{Name: "Frontend", Description: "Style the boards", Assigned: "Kyle", Status: "Someday"}'
+//     --data '{"name": "Decide", "description": "Pick FrontEnd framework", "assigned": "Kyle", "status": "Someday"}'
