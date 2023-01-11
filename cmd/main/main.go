@@ -10,7 +10,7 @@ import (
 	"os"
 )
 
-type task struct {
+type Task struct {
 	ID          string `json:"id"`
 	Name        string `json:"name"`
 	Description string `json:"description"`
@@ -25,7 +25,7 @@ type task struct {
 // }
 
 func main() {
-	dbpool, err := pgxpool.New(context.Background(), os.Getenv("DATABASE_URL"))
+	dbpool, err := pgxpool.New(context.Background(), os.Getenv("DB_URL"))
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Unable to create connection pool: %v\n", err)
 		os.Exit(1)
@@ -38,44 +38,57 @@ func main() {
 		fmt.Fprintf(os.Stderr, "QueryRow failed: %v\n", err)
 		os.Exit(7)
 	}
+
 	fmt.Printf(greeting)
+	tasks, err := getAllTasks(dbpool)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "find task failed: %v\n", err)
+		os.Exit(10)
+	}
+	fmt.Printf("Tasks found: %v\n", tasks)
+
 	router := gin.Default()
 
 	// router.GET("/tasks/:id", getTask)
 	// router.POST("/tasks", addTask)
 	router.GET("/tasks", getHandler(dbpool))
-	router.Run(":8080")
+	router.Run("localhost:8080")
 
 }
 
 func getHandler(dbpool *pgxpool.Pool) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
-		var tasks []task
-
-		rows, err := dbpool.Query(context.Background(), "SELECT * from task")
-		c.IndentedJSON(http.StatusOK, tasks)
+		tasks, err := getAllTasks(dbpool)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "GET all tasks failed here: %v", err)
-			os.Exit(2)
+			fmt.Fprintf(os.Stderr, "find task failed: %v\n", err)
+			os.Exit(10)
 		}
-		defer rows.Close()
-		for rows.Next() {
-			var tas task
-			if err := rows.Scan(&tas.ID, &tas.Name, &tas.Description, &tas.Assigned, &tas.Status); err != nil {
-				fmt.Fprintf(os.Stderr, "GET all tasks failed: %v", err)
-				os.Exit(3)
-			}
-			tasks = append(tasks, tas)
-		}
+		fmt.Printf("Tasks found: %v\n", tasks)
 		c.IndentedJSON(http.StatusOK, tasks)
-		// if err := rows.Err(); err != nil {
-		// 	fmt.Fprintf(os.Stderr, "GET all tasks failed: %v", err)
-		// 	os.Exit(4)
-		// }
-
 	}
-
 	return gin.HandlerFunc(fn)
+}
+
+func getAllTasks(dbpool *pgxpool.Pool) ([]Task, error) {
+	var tasks []Task
+
+	rows, err := dbpool.Query(context.Background(), "select * from task")
+	if err != nil {
+		return nil, fmt.Errorf("Tasks: %v", err)
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var tas Task
+		if err := rows.Scan(&tas.ID, &tas.Name, &tas.Description, &tas.Assigned, &tas.Status); err != nil {
+			fmt.Fprintf(os.Stderr, "GET all tasks failed: %v", err)
+			os.Exit(3)
+		}
+		tasks = append(tasks, tas)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("tasks: %v", err)
+	}
+	return tasks, nil
 }
 
 // func getTaskDB(dbpool *pgxpool.Pool) ([]task, error) {
