@@ -50,10 +50,10 @@ func main() {
 	fmt.Printf("Tasks found: %v\n", tasks)
 
 	router := gin.Default()
-
+	router.GET("/tasks", getAllHandler(dbpool))
 	router.GET("/tasks/:id", getByIdHandler(dbpool))
 	router.POST("/tasks", postHandler(dbpool))
-	router.GET("/tasks", getAllHandler(dbpool))
+	router.DELETE("/tasks/:id", deleteHandler(dbpool))
 	router.Run("localhost:8080")
 
 }
@@ -108,6 +108,21 @@ func postHandler(dbpool *pgxpool.Pool) gin.HandlerFunc {
 	return gin.HandlerFunc(fn)
 }
 
+func deleteHandler(dbpool *pgxpool.Pool) gin.HandlerFunc {
+	fn := func(c *gin.Context) {
+		id := c.Param("id")
+		err := deleteTask(dbpool, id)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "No such task, task id: %v, %v", id, err)
+			c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Task not found"})
+			return
+		}
+
+		c.IndentedJSON(http.StatusAccepted, gin.H{"message": "Task deleted"})
+	}
+	return gin.HandlerFunc(fn)
+}
+
 // TASK FUNCTIONS
 
 // GET ALL TASKS
@@ -155,6 +170,16 @@ func postTask(tas Task, dbpool *pgxpool.Pool) (int64, error) {
 	}
 
 	return id, nil
+}
+
+// DELETE
+func deleteTask(dbpool *pgxpool.Pool, id string) error {
+	err := dbpool.QueryRow(context.Background(), "DELETE FROM task WHERE id=$1 returning id", id).Scan(&id)
+	if err != nil {
+		return fmt.Errorf("DELETE failed, no id: %v, %v", id, err)
+	}
+
+	return nil
 }
 
 // func addTask(c *gin.Context) {
