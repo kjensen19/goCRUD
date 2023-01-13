@@ -16,7 +16,7 @@ async function handlePull(req, res){
             },
         },
         {
-            opt: 'put',
+            op: 'put',
             key: 'task/5ahljadc408',
             value: {
                 from: 'Future Kyle',
