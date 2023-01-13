@@ -9,6 +9,15 @@ const rep = process.browser
     licenseKey: TEST_LICENSE_KEY,
     pushURL: '/api/replicache-push',
     pullURL: '/api/replicache-pull',
+    mutators: {
+      async createMessage(tx, {id, from, content, order}) {
+        await tx.put(`task/${id}`, {
+          from,
+          content,
+          order,
+        });
+      },
+    },
     })
   : null;
 
@@ -36,7 +45,15 @@ const rep = process.browser
 
     const onSubmit = e => {
       e.preventDefault();
-      // TODO: Create message
+      const last = messages.length && messages[messages.length - 1][1];
+      const order = (last?.order ?? 0) + 1;
+      rep.mutate.createMessage({
+        id: nanoid(),
+        from: usernameRef.current.value,
+        content: contentRef.current.value,
+        order,
+      });
+      contentRef.current.value = '';
     };
 
     return (
