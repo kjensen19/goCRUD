@@ -20,12 +20,6 @@ type Task struct {
 	Status      string `json:"status"`
 }
 
-// var tasks = []task{
-// 	{ID: "1", Name: "Build APIs", Description: "REST APIs", Assigned: "Kyle", Status: "In Progress"},
-// 	{ID: "2", Name: "Build DB connection", Description: "Link with Postgres", Assigned: "Kyle", Status: "ToDo"},
-// 	{ID: "3", Name: "Frontend", Description: "Style the boards", Assigned: "Kyle", Status: "Someday"},
-// }
-
 func main() {
 	dbpool, err := pgxpool.New(context.Background(), os.Getenv("DB_URL"))
 	if err != nil {
@@ -40,14 +34,6 @@ func main() {
 		fmt.Fprintf(os.Stderr, "QueryRow failed: %v\n", err)
 		os.Exit(7)
 	}
-
-	fmt.Printf(greeting)
-	tasks, err := getAllTasks(dbpool)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "find task failed: %v\n", err)
-		os.Exit(10)
-	}
-	fmt.Printf("Tasks found: %v\n", tasks)
 
 	router := gin.Default()
 	router.GET("/tasks", getAllHandler(dbpool))
@@ -108,6 +94,7 @@ func postHandler(dbpool *pgxpool.Pool) gin.HandlerFunc {
 	return gin.HandlerFunc(fn)
 }
 
+// DELETE Handler
 func deleteHandler(dbpool *pgxpool.Pool) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
 		id := c.Param("id")
@@ -181,30 +168,3 @@ func deleteTask(dbpool *pgxpool.Pool, id string) error {
 
 	return nil
 }
-
-// func addTask(c *gin.Context) {
-// 	var newTask task
-
-// 	if err := c.BindJSON(&newTask); err != nil {
-// 		return
-// 	}
-
-// 	tasks = append(tasks, newTask)
-// 	c.IndentedJSON(http.StatusCreated, newTask)
-
-// }
-
-//GET all Request syntax:
-// curl http://localhost:8080/tasks \
-//     --header "Content-Type: application/json" \
-//     --request "GET"
-
-//Get by id:
-// curl http://localhost:8080/tasks/2
-
-//POST dummy data
-// curl http://localhost:8080/tasks \
-//     --include \
-//     --header "Content-Type: application/json" \
-//     --request "POST" \
-//     --data '{"name": "Decide", "description": "Pick FrontEnd framework", "assigned": "Kyle", "status": "Someday"}'
