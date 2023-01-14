@@ -5,11 +5,11 @@ import (
 	"database/sql"
 	// "database/sql"
 	"fmt"
-	"net/http"
-	"os"
-
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5/pgxpool"
+	cors "github.com/rs/cors/wrapper/gin"
+	"net/http"
+	"os"
 )
 
 type Task struct {
@@ -36,6 +36,7 @@ func main() {
 	}
 
 	router := gin.Default()
+	router.Use(cors.Default())
 	router.GET("/tasks", getAllHandler(dbpool))
 	router.GET("/tasks/:id", getByIdHandler(dbpool))
 	router.POST("/tasks", postHandler(dbpool))
@@ -55,7 +56,7 @@ func getAllHandler(dbpool *pgxpool.Pool) gin.HandlerFunc {
 			os.Exit(10)
 		}
 		fmt.Printf("Tasks found: %v\n", tasks)
-		c.IndentedJSON(http.StatusOK, tasks)
+		c.JSON(http.StatusOK, tasks)
 	}
 	return gin.HandlerFunc(fn)
 }
