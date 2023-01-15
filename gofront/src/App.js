@@ -2,6 +2,8 @@ import logo from './logo.svg';
 import './App.css';
 import axios from 'axios'
 import { useEffect, useState } from 'react';
+import TaskFrame from './components/TaskFrame/TaskFrame';
+import TaskCard from './components/TaskCard/TaskCard';
 
 function App() {
   const [taskList, setTaskList] = useState('')
@@ -23,11 +25,15 @@ function App() {
     <div className="App">
       <header className="App-header">
         <button onClick={testConn}>?????</button>
-        <ul>
-          {taskList && taskList.map((task,i) =>(
-            <li key={i}>{[task.name, task.description, task.assigned, task.status]}</li>
-          ))}
-        </ul>
+        
+          <ul>
+            {taskList && taskList.map((task,i) =>(
+              <li key={i}>
+                <TaskCard task={task} />
+              </li>
+            ))}
+          </ul>
+        
       </header>
     </div>
   );
