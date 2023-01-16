@@ -31,10 +31,3 @@ export default function TaskCard({ task }) {
 }
 
 
-
-{/* <Typography sx={{ fontSize: 12 }} color="text.secondary" gutterBottom>
-Task: {task.status}
-</Typography> */}
-{/* <Typography variant="body2">
-{task.description}
-</Typography> */}
