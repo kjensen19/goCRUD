@@ -18,7 +18,7 @@ export default function TaskCard({ task }) {
         <Typography variant="h5" component="div" >
             {task.name}
         </Typography>
-        <Typography sx={{ fontSize: 12, mt: .5}}  color="text.secondary">
+        <Typography sx={{ fontSize: 16, mt: 0}}  color="text.secondary">
           {task.assigned}
         </Typography>
       </CardContent>
