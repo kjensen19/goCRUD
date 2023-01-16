@@ -3,13 +3,15 @@ package main
 import (
 	"context"
 	"database/sql"
+
 	// "database/sql"
 	"fmt"
+	"net/http"
+	"os"
+
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5/pgxpool"
 	cors "github.com/rs/cors/wrapper/gin"
-	"net/http"
-	"os"
 )
 
 type Task struct {
@@ -20,6 +22,12 @@ type Task struct {
 	Status      string `json:"status"`
 }
 
+func OptionMessage(c *gin.Context) {
+	c.Header("Access-Control-Allow-Origin", "*")
+	c.Header("Access-Control-Allow-Methods", "GET, OPTIONS, POST, PUT, DELETE")
+	c.Header("Access-Control-Allow-Headers", "X-Requested-With")
+	c.JSON(http.StatusOK, nil)
+}
 func main() {
 	dbpool, err := pgxpool.New(context.Background(), os.Getenv("DB_URL"))
 	if err != nil {
@@ -36,11 +44,12 @@ func main() {
 	}
 
 	router := gin.Default()
-	router.Use(cors.Default())
+	router.Use(cors.AllowAll())
 	router.GET("/tasks", getAllHandler(dbpool))
 	router.GET("/tasks/:id", getByIdHandler(dbpool))
 	router.POST("/tasks", postHandler(dbpool))
 	router.DELETE("/tasks/:id", deleteHandler(dbpool))
+	router.OPTIONS("/tasks/:id", OptionMessage)
 	router.Run("localhost:8080")
 
 }
@@ -102,11 +111,11 @@ func deleteHandler(dbpool *pgxpool.Pool) gin.HandlerFunc {
 		err := deleteTask(dbpool, id)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "No such task, task id: %v, %v", id, err)
-			c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Task not found"})
+			c.JSON(http.StatusNotFound, gin.H{"message": "Task not found"})
 			return
 		}
 
-		c.IndentedJSON(http.StatusAccepted, gin.H{"message": "Task deleted"})
+		c.JSON(http.StatusOK, nil)
 	}
 	return gin.HandlerFunc(fn)
 }

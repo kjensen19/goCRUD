@@ -19,27 +19,19 @@ export default function TaskFrame({ taskList }) {
     const done = []
 
     for (let task of taskList){
-        console.log('task',task, 'task.status:', task.status)
         switch(task.status){
             case 'ToDo':
-                console.log('in toDo????????????')
                  toDo.push(task)
                 break;
             case 'Doing':
-                console.log('DOING *****************')
                 doing.push(task)
                 break;
             case 'Done':
-                console.log('DONE DONE DONE DONE DONE')
                 done.push(task)
                 break;
             default:
-                console.log('task.status =', task.status)
-                console.log('task in default: ', task)
+     
         }
-        console.log('TODO::::::::::', toDo)
-        console.log('DOING!!!!!!!!!!!!!!!!!!!', doing)
-        console.log('DONE XXXXXXXXXXXXXXX', done)
     }
 
     return (
