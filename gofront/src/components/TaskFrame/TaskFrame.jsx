@@ -1,9 +1,12 @@
 import * as React from 'react';
 import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
 
-export default function TaskFrame() {
+import TaskCard from '../TaskCard/TaskCard';
+
+export default function TaskFrame({ task }) {
     return (
-        <Paper elevation={10} />
+        <Paper elevation={10} sx={{ padding: 1 }}>
+            <TaskCard task={task} />
+        </Paper>
     )
 }

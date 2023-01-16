@@ -26,13 +26,9 @@ function App() {
     <div className="App">
       <header className="App-header">
         <button onClick={testConn}>?????</button>
-          <ul>
             {taskList && taskList.map((task,i) =>(
-              <li key={i}>
-                <TaskCard task={task} />
-              </li>
-            ))}
-          </ul>
+                <TaskFrame task={task} />
+            ))} 
       </header>
     </div>
   );
