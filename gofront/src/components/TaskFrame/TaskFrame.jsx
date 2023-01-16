@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useState } from 'react';
 //MUI
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
@@ -8,7 +7,6 @@ import Stack from '@mui/material/Stack';
 import './TaskFrame.css'
 
 //Components
-import TaskDetail from '../TaskDetail/TaskDetail';
 import TaskCard from '../TaskCard/TaskCard';
 
 // TODO: Add function to sort tasks based on status

@@ -23,6 +23,7 @@ type Task struct {
 }
 
 // Need to find exact way to make this work, currently routes are working with permissive CORS policies (AllowAll)
+// TODO:Pull routes out into pkg/routes
 func OptionMessage(c *gin.Context) {
 	c.Header("Access-Control-Allow-Origin", "*")
 	c.Header("Access-Control-Allow-Methods", "GET, OPTIONS, POST, PUT, DELETE")

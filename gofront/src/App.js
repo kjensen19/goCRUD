@@ -2,9 +2,10 @@ import logo from './logo.svg';
 import './App.css';
 import axios from 'axios'
 import { useEffect, useState } from 'react';
+
+import AddTask from './components/AddTask/AddTask';
 import TaskFrame from './components/TaskFrame/TaskFrame';
 import TaskCard from './components/TaskCard/TaskCard';
-import Paper from '@mui/material/Paper';
 
 
 
@@ -36,7 +37,8 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <TaskFrame taskList={taskList} testConn={testConn}/>       
+        <TaskFrame taskList={taskList} testConn={testConn}/>
+        <AddTask testConn={testConn} />   
       </header>
     </div>
   );
