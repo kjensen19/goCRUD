@@ -13,7 +13,7 @@ import TaskCard from '../TaskCard/TaskCard';
 
 // TODO: Add function to sort tasks based on status
 
-export default function TaskFrame({ taskList }) {
+export default function TaskFrame({ taskList, testConn }) {
     const toDo = [] 
     const doing = []
     const done = []
@@ -41,7 +41,7 @@ export default function TaskFrame({ taskList }) {
                     ToDo
                 </Typography>
                 {toDo && toDo.map((task,i) =>(
-                <TaskCard task={task} key={task.name} />
+                <TaskCard task={task} testConn={testConn} key={task.name} />
                 ))}
             </Paper>
             <Paper className='taskFrame' elevation={1} sx={{ padding: 2, backgroundColor: 'grey', borderRadius: 4, minWidth: 200 }}>
@@ -49,7 +49,7 @@ export default function TaskFrame({ taskList }) {
                     Doing
                 </Typography>
                 {doing && doing.map((task,i) =>(
-                <TaskCard task={task} key={task.name} />
+                <TaskCard task={task} testConn={testConn} key={task.name} />
                 ))}
             </Paper>
             <Paper className='taskFrame' elevation={1} sx={{ padding: 2, backgroundColor: 'grey', borderRadius: 4, minWidth: 200 }}>
@@ -57,7 +57,7 @@ export default function TaskFrame({ taskList }) {
                     Done
                 </Typography>
                 {done && done.map((task,i) =>(
-                <TaskCard task={task} key={task.name} />
+                <TaskCard task={task} testConn={testConn} key={task.name} />
                 ))}
             </Paper>
         </Stack>

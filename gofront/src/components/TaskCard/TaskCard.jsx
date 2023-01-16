@@ -15,32 +15,22 @@ import TaskDetail from '../TaskDetail/TaskDetail';
 
 
 
-// const testConn = () => {
-//     axios({
-//       method: 'GET',
-//       url: 'http://localhost:8080/tasks'
-//     }).then((res) => {
-//       console.log('res', res.data)
-//       setTaskList(res.data)
-//     }).catch((err) => {
-//       console.log('GET err: ', err)
-//     })
+
+
+
+// ID, Name, Description, Assigned, Status
+// TODO: Add Avatar/img to task.name display
+// TODO: Add edit to popup card detail component (modal?) with populated, editable fields
+export default function TaskCard({ task, testConn }) {
     
-//   }
-
-
-// &tas.ID, &tas.Name, &tas.Description, &tas.Assigned, &tas.Status
-export default function TaskCard({ task }) {
-    // const delTask = () =>
-    //     axios.delete(`http://localhost:8080/tasks/${task.id}`)
     const delTask = () => {
-        console.log('task.id=', task.id)
         const id = task.id
         axios({
             method: 'DELETE',
             url: `http://localhost:8080/tasks/${id}`
         }).then((res) => {
             console.log('delete successful', res)
+            testConn()
         }).catch((err) => {
             console.log('DEL ERROR: ', err)
         })

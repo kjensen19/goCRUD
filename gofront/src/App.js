@@ -14,7 +14,11 @@ function App() {
   useEffect(() => {
     testConn()
   }, [])
-
+  //Currently passed via prop drilling. May a place to try useContext or implement redux w/sagas
+  // TODO: add AddTask box
+  // TODO: DnD
+  // TODO: Login
+  // TODO: 
   const testConn = () => {
     axios({
       method: 'GET',
@@ -32,7 +36,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <TaskFrame taskList={taskList} />       
+        <TaskFrame taskList={taskList} testConn={testConn}/>       
       </header>
     </div>
   );
