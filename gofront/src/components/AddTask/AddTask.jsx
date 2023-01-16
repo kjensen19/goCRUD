@@ -9,7 +9,7 @@ import Button from '@mui/material/Button';
 
 // Name, Description, Assigned, Status
 export default function AddTask({ testConn }) {
-    const [newTask, setNewTask] = useState({name:'', description:'', assigned:'', status:''})
+    const [newTask, setNewTask] = useState({name:'', description:'', assigned:''})
 
     const handleChange = e => {
         const { name, value } = e.target;
@@ -22,7 +22,7 @@ export default function AddTask({ testConn }) {
         e.preventDefault();
         addNewTask(newTask)
     }
-    const emptyInputs = () =>{useState({name:'', description:'', assigned:'', status:''})}
+    const emptyInputs = () => {setNewTask({name:'', description:'', assigned:''})}
 
     const addNewTask = (task) => {
         axios({
@@ -32,7 +32,7 @@ export default function AddTask({ testConn }) {
                 name: task.name,
                 description: task.description,
                 assigned: task.assigned,
-                status: task.status
+                status: "ToDo"
             }
         }).then((res) => {
             testConn()
@@ -43,12 +43,13 @@ export default function AddTask({ testConn }) {
     }
     // Name, Description, Assigned, Status
     return (
-        <Stack>
-            <Input onChange={handleChange} type="text" name='name' placeholder='Name' value={newTask.name} />
-            <Input onChange={handleChange} type="text" name='description' placeholder='Description' value={newTask.description} />
-            <Input onChange={handleChange} type="text" name='assigned' placeholder='Assigned' value={newTask.assigned} />
-            <Input onChange={handleChange} type="text" name='status' placeholder='Status' value={newTask.status} />
+        <Stack sx={{backgroundColor: 'ghostwhite', borderRadius: 4, padding: 1, width: 400, mt: 2 }}>
+            <Input onChange={handleChange} type="text" name='name' placeholder='Name' color='secondary'  value={newTask.name} />
+            <Input onChange={handleChange} type="text" name='description' placeholder='Description'  value={newTask.description} />
+            <Input onChange={handleChange} type="text" name='assigned' placeholder='Assigned'  value={newTask.assigned} />
             <Button onClick={handleSubmit}>Add Task</Button>
         </Stack>
     )
 }
+
+/* <Input onChange={handleChange} type="text" name='status' placeholder='Status'  value={newTask.status} /> */

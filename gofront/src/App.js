@@ -1,16 +1,17 @@
-import logo from './logo.svg';
 import './App.css';
 import axios from 'axios'
 import { useEffect, useState } from 'react';
 
+//Components
 import AddTask from './components/AddTask/AddTask';
 import TaskFrame from './components/TaskFrame/TaskFrame';
-import TaskCard from './components/TaskCard/TaskCard';
 
 
 
 function App() {
   const [taskList, setTaskList] = useState('')
+
+  
 
   useEffect(() => {
     testConn()
@@ -37,9 +38,10 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <TaskFrame taskList={taskList} testConn={testConn}/>
-        <AddTask testConn={testConn} />   
+        ToDO
       </header>
+      <TaskFrame taskList={taskList} testConn={testConn}/>
+      <AddTask testConn={testConn} />   
     </div>
   );
 }
