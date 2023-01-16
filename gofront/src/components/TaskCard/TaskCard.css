@@ -1,5 +1,11 @@
 
 
 .taskCard {
-    margin: 0 0 1rem 0;
+    margin: 0 0 .25rem 0;
+    
+}
+
+.taskCard:hover{
+    transform: scale(1.07);
+    background-color: rgba(128, 255, 0, 0.178);
 }

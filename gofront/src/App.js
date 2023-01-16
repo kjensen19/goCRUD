@@ -6,8 +6,15 @@ import TaskFrame from './components/TaskFrame/TaskFrame';
 import TaskCard from './components/TaskCard/TaskCard';
 import Paper from '@mui/material/Paper';
 
+
+
 function App() {
   const [taskList, setTaskList] = useState('')
+
+  useEffect(() => {
+    testConn()
+  }, [])
+
   const testConn = () => {
     axios({
       method: 'GET',
@@ -25,10 +32,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <button onClick={testConn}>?????</button>
-            {taskList && taskList.map((task,i) =>(
-                <TaskFrame task={task} />
-            ))} 
+        <TaskFrame taskList={taskList} />       
       </header>
     </div>
   );
