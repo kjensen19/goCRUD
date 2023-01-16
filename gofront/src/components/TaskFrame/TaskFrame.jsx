@@ -6,7 +6,7 @@ import TaskCard from '../TaskCard/TaskCard';
 
 export default function TaskFrame({ taskList }) {
     return (
-        <Paper className='taskFrame' elevation={10} sx={{ padding: 1 }}>
+        <Paper className='taskFrame' elevation={1} sx={{ padding: 2, backgroundColor: 'grey', borderRadius: 4 }}>
             {taskList && taskList.map((task,i) =>(
             <TaskCard task={task} key={task.name} />
             ))}
