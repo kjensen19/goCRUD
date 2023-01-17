@@ -3,7 +3,7 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 
 
-export default function TaskSorter({ task }) {
+export default function TaskSorter({ task, testConn }) {
     const statusArr = ['ToDo', 'Doing', 'Done']
     const buttonArr = []
     for (let stat of statusArr) {
@@ -29,6 +29,7 @@ export default function TaskSorter({ task }) {
                 status: e.target.textContent
             }
         }).then((res) => {
+            testConn()
             console.log('res', res)
           }).catch((err) => {
             console.log('PUT err: ', err)
@@ -37,7 +38,7 @@ export default function TaskSorter({ task }) {
     return(
         <Stack direction='row' paddingTop={2.5} margin={0} >
             <Button onClick={handleClick} sx={{ paddingTop: 0}} size='small'>{buttonArr[0]}</Button>
-            <Button sx={{ paddingTop: 0}} size='small'>{buttonArr[1]}</Button>
+            <Button onClick={handleClick} sx={{ paddingTop: 0}} size='small'>{buttonArr[1]}</Button>
         </Stack>
     )
 }

@@ -49,7 +49,7 @@ export default function TaskCard({ task, testConn }) {
             alignItems: 'center', 
             justifyContent: 'center' 
             }}>
-        <TaskSorter task={task} />
+        <TaskSorter task={task} testConn={testConn} />
         <CardContent sx={{padding: 0}}>
             <Typography variant="h5" component="div" >
                 {task.name}
