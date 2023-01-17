@@ -20,8 +20,9 @@ export default function TaskSorter({ task }) {
         console.log(e.target.textContent)
         axios({
             method: 'PUT',
-            url: `http://localhost:8080/tasks/${task.id}`,
+            url: `http://localhost:8080/tasks`,
             data: {
+                id: task.id,
                 name: task.name,
                 description: task.description,
                 assigned: task.assigned,

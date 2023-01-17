@@ -51,7 +51,7 @@ func main() {
 	router.GET("/tasks/:id", getByIdHandler(dbpool))
 	router.POST("/tasks", postHandler(dbpool))
 	router.DELETE("/tasks/:id", deleteHandler(dbpool))
-	router.PUT("tasks/:id", putHandler(dbpool))
+	router.PUT("tasks", putHandler(dbpool))
 	router.OPTIONS("/tasks/:id", OptionMessage)
 	router.Run("localhost:8080")
 
@@ -130,12 +130,11 @@ func putHandler(dbpool *pgxpool.Pool) gin.HandlerFunc {
 		if err := c.BindJSON(&updatedTask); err != nil {
 			return
 		}
-		err := updateTask(updatedTask, dbpool)
+		id, err := updateTask(updatedTask, dbpool)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "No such task, task id: %v, %v", updatedTask, err)
-			c.JSON(http.StatusNotFound, gin.H{"message": "Task not found"})
-			return
 		}
+		fmt.Printf("task created: %v\n", id)
 		c.JSON(http.StatusOK, nil)
 	}
 	return gin.HandlerFunc(fn)
@@ -201,12 +200,12 @@ func deleteTask(dbpool *pgxpool.Pool, id string) error {
 }
 
 // PUT
-func updateTask(tas Task, dbpool *pgxpool.Pool) error {
+func updateTask(tas Task, dbpool *pgxpool.Pool) (int64, error) {
 	var id int64
 	err := dbpool.QueryRow(context.Background(), `UPDATE task SET "name"=$1, "description"=$2, "assigned"=$3, "status"=$4 WHERE id=$5 RETURNING id;`, tas.Name, tas.Description, tas.Assigned, tas.Status, tas.ID).Scan(&id)
 	if err != nil {
-		return fmt.Errorf("UPDATE failed: %v", err)
+		return 0, fmt.Errorf("UPDATE failed: %v, %v", err, id)
 
 	}
-	return nil
+	return id, nil
 }

@@ -31,10 +31,10 @@ export default function TaskFrame({ taskList, testConn }) {
      
         }
     }
-
+    //TODO: Move taskFrame sx to CSS file (DRY)
     return (
         <Stack direction='row' spacing={3} >
-            <Paper className='taskFrame' elevation={1} sx={{ padding: 1, backgroundColor: 'grey', borderRadius: 4 }}>
+            <Paper className='taskFrame' elevation={1} sx={{ padding: 1, backgroundColor: 'grey', borderRadius: 4, minHeight: 500 }}>
                 <Typography variant="h5" component="div" sx={{color: 'ghostwhite'}}>
                     ToDo
                 </Typography>
