@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography';
 
 
 import './TaskCard.css'
+import TaskSorter from '../TaskSorter/TaskSorter';
 import TaskDetail from '../TaskDetail/TaskDetail';
 
 
@@ -36,16 +37,28 @@ export default function TaskCard({ task, testConn }) {
         })
     }
   return (
-    <Card className='taskCard' sx={{ minWidth: 175, maxHeight: 110, borderRadius: 4, mb: 1, mt: 1 }}>
-      <CardContent sx={{ pb: .2 }}>
-        <Typography variant="h5" component="div" >
-            {task.name}
-        </Typography>
-        <Typography sx={{ fontSize: 16, mt: 0}}  color="text.secondary">
-          {task.assigned}
-        </Typography>
+    <Card className='taskCard' 
+        sx={{ 
+            minWidth: 175, 
+            maxHeight: 125, 
+            borderRadius: 4, 
+            mb: 1, 
+            mt: 1, 
+            display: 'flex', 
+            flexFlow: 'column', 
+            alignItems: 'center', 
+            justifyContent: 'center' 
+            }}>
+        <TaskSorter task={task} />
+        <CardContent sx={{padding: 0}}>
+            <Typography variant="h5" component="div" >
+                {task.name}
+            </Typography>
+            <Typography sx={{ fontSize: 16, mt: 0}}  color="text.secondary">
+            {task.assigned}
+            </Typography>
       </CardContent>
-      <CardActions sx={{pt: 0, paddingBottom: 3, ml: 1.25 }}>
+      <CardActions sx={{pt: 0, paddingBottom: 3, ml: 1.25}}>
         <Button size="small" variant='contained' >EDIT</Button>
         <Button size="small" variant='contained' onClick={delTask}>DEL</Button>
       </CardActions>

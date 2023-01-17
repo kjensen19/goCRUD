@@ -38,7 +38,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        ToDO
+        ToDo
       </header>
       <TaskFrame taskList={taskList} testConn={testConn}/>
       <AddTask testConn={testConn} />   

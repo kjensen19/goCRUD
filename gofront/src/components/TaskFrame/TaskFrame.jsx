@@ -34,7 +34,7 @@ export default function TaskFrame({ taskList, testConn }) {
 
     return (
         <Stack direction='row' spacing={3} >
-            <Paper className='taskFrame' elevation={1} sx={{ padding: 2, backgroundColor: 'grey', borderRadius: 4 }}>
+            <Paper className='taskFrame' elevation={1} sx={{ padding: 1, backgroundColor: 'grey', borderRadius: 4 }}>
                 <Typography variant="h5" component="div" sx={{color: 'ghostwhite'}}>
                     ToDo
                 </Typography>
@@ -42,7 +42,7 @@ export default function TaskFrame({ taskList, testConn }) {
                 <TaskCard task={task} testConn={testConn} key={task.name} />
                 ))}
             </Paper>
-            <Paper className='taskFrame' elevation={1} sx={{ padding: 2, backgroundColor: 'grey', borderRadius: 4, minWidth: 200 }}>
+            <Paper className='taskFrame' elevation={1} sx={{ padding: 1, backgroundColor: 'grey', borderRadius: 4, minWidth: 200 }}>
                 <Typography variant="h5" component="div" sx={{color: 'ghostwhite'}}>
                     Doing
                 </Typography>
@@ -50,7 +50,7 @@ export default function TaskFrame({ taskList, testConn }) {
                 <TaskCard task={task} testConn={testConn} key={task.name} />
                 ))}
             </Paper>
-            <Paper className='taskFrame' elevation={1} sx={{ padding: 2, backgroundColor: 'grey', borderRadius: 4, minWidth: 200 }}>
+            <Paper className='taskFrame' elevation={1} sx={{ padding: 1, backgroundColor: 'grey', borderRadius: 4, minWidth: 200 }}>
                 <Typography variant="h5" component="div" sx={{color: 'ghostwhite'}}>
                     Done
                 </Typography>
