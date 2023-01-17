@@ -30,7 +30,6 @@ export default function TaskCard({ task, testConn }) {
             method: 'DELETE',
             url: `http://localhost:8080/tasks/${id}`
         }).then((res) => {
-            console.log('delete successful', res)
             testConn()
         }).catch((err) => {
             console.log('DEL ERROR: ', err)

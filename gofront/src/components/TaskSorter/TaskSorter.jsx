@@ -13,7 +13,6 @@ export default function TaskSorter({ task, testConn }) {
         else{
             buttonArr.push(stat)
         }
-        console.log('buttonArr', buttonArr)
     }
 
     const handleClick = (e) => {
@@ -30,7 +29,6 @@ export default function TaskSorter({ task, testConn }) {
             }
         }).then((res) => {
             testConn()
-            console.log('res', res)
           }).catch((err) => {
             console.log('PUT err: ', err)
           })
