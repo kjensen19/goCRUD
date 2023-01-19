@@ -31,6 +31,7 @@ export default function TaskFrame({ taskList, fetchTasks }) {
      
         }
     }
+    
     //TODO: Move taskFrame sx to CSS file (DRY)
     // uses MUI stack to hold the three groups and provide styling
     // TODO: look at writing all of this as a function that creates each column based on cards?
