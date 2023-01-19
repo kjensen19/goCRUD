@@ -22,8 +22,11 @@ import TaskDetail from '../TaskDetail/TaskDetail';
 // ID, Name, Description, Assigned, Status
 // TODO: Add Avatar/img to task.name display
 // TODO: Add edit to popup card detail component (modal?) with populated, editable fields
+// TODO: Add detail view on click
+// Receives one task from map function
+// TODO: Could move some of the card styling to the CSS file to make card jsx more readable
 export default function TaskCard({ task, testConn }) {
-    
+    //Send ID of specific task with delete route on click, then call get function passed in as a prop
     const delTask = () => {
         const id = task.id
         axios({

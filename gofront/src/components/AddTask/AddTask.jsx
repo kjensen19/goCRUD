@@ -7,10 +7,15 @@ import Input from '@mui/material/Input';
 import Button from '@mui/material/Button';
 
 
-// Name, Description, Assigned, Status
+//OBJECT SHAPE: (ID), Name, Description, Assigned, Status
 export default function AddTask({ testConn }) {
-    const [newTask, setNewTask] = useState({name:'', description:'', assigned:''})
+    //Use variable for starting stay to keep reset DRY
+    const baseState = {name:'', description:'', assigned:''}
+    //State for task being created
+    const [newTask, setNewTask] = useState(baseState)
 
+    //change handler to manage task as an object w/spread operator keeping previous entries
+    //name and value on inputs are important as they must match object for this function to work
     const handleChange = e => {
         const { name, value } = e.target;
         setNewTask(newTask => ({
@@ -18,12 +23,17 @@ export default function AddTask({ testConn }) {
             [name]: value
         }))
     };
+    //Prevent default behavior of the submit, call axios POST on new task object
     const handleSubmit = (e) => {
         e.preventDefault();
         addNewTask(newTask)
     }
-    const emptyInputs = () => {setNewTask({name:'', description:'', assigned:''})}
-
+    //Create function to empty the inputs
+    const emptyInputs = () => {setNewTask(baseState)}
+    //Call POST with new task object as data
+    //On sucess call GET function (passed to component as a prop) to rerender the tasks with new task
+    //Then call function to empty the inputs
+    //TODO: add user notification (alert) in the catch block
     const addNewTask = (task) => {
         axios({
             method: 'POST',
@@ -52,5 +62,5 @@ export default function AddTask({ testConn }) {
         </Stack>
     )
 }
-
+//If we want to add the ability to set status back in;
 /* <Input onChange={handleChange} type="text" name='status' placeholder='Status'  value={newTask.status} /> */
