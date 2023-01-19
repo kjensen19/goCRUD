@@ -9,19 +9,22 @@ import TaskFrame from './components/TaskFrame/TaskFrame';
 
 
 function App() {
+  //Manages task list for all components
   const [taskList, setTaskList] = useState('')
 
   
-
+  //on page load call fetch
   useEffect(() => {
-    testConn()
+    fetchTasks()
   }, [])
-  //Currently passed via prop drilling. May a place to try useContext or implement redux w/sagas
-  // TODO: add AddTask box
+  //Currently passed via prop drilling. May be a place to try useContext or implement redux w/sagas
+  // ✅TODO: add AddTask box
   // TODO: DnD
   // TODO: Login
-  // TODO: 
-  const testConn = () => {
+  // ✅TODO: Rename testConn as fetchTasks
+
+  //GET for all components
+  const fetchTasks = () => {
     axios({
       method: 'GET',
       url: 'http://localhost:8080/tasks'
@@ -40,8 +43,8 @@ function App() {
       <header className="App-header">
         ToDo
       </header>
-      <TaskFrame taskList={taskList} testConn={testConn}/>
-      <AddTask testConn={testConn} />   
+      <TaskFrame taskList={taskList} fetchTasks={fetchTasks}/>
+      <AddTask fetchTasks={fetchTasks} />   
     </div>
   );
 }

@@ -3,9 +3,12 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 
 
-export default function TaskSorter({ task, testConn }) {
+export default function TaskSorter({ task, fetchTasks }) {
+    //Arr of all possible status tags
     const statusArr = ['ToDo', 'Doing', 'Done']
+    //Arr of the statuses that need to appear on the card as buttons (starts empty)
     const buttonArr = []
+    //Loop through statusArr and check against task.status to exclude that option and push the others to the button array
     for (let stat of statusArr) {
         if (stat === task.status){
             continue
@@ -14,7 +17,7 @@ export default function TaskSorter({ task, testConn }) {
             buttonArr.push(stat)
         }
     }
-
+    //On click that calls a PUT, uses the text content of the button to determine where to move the card and then rerenders based on GET
     const handleClick = (e) => {
         console.log(e.target.textContent)
         axios({
@@ -28,7 +31,7 @@ export default function TaskSorter({ task, testConn }) {
                 status: e.target.textContent
             }
         }).then((res) => {
-            testConn()
+            fetchTasks()
           }).catch((err) => {
             console.log('PUT err: ', err)
           })
@@ -40,4 +43,5 @@ export default function TaskSorter({ task, testConn }) {
         </Stack>
     )
 }
+//Object Shape:
 // ID, Name, Description, Assigned, Status

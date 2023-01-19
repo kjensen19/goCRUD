@@ -9,13 +9,13 @@ import './TaskFrame.css'
 //Components
 import TaskCard from '../TaskCard/TaskCard';
 
-// TODO: Add function to sort tasks based on status
+// TODO: Add 
 
-export default function TaskFrame({ taskList, testConn }) {
+export default function TaskFrame({ taskList, fetchTasks }) {
     const toDo = [] 
     const doing = []
     const done = []
-
+    //Switch to sort tasks based on status
     for (let task of taskList){
         switch(task.status){
             case 'ToDo':
@@ -32,6 +32,8 @@ export default function TaskFrame({ taskList, testConn }) {
         }
     }
     //TODO: Move taskFrame sx to CSS file (DRY)
+    // uses MUI stack to hold the three groups and provide styling
+    // TODO: look at writing all of this as a function that creates each column based on cards?
     return (
         <Stack direction='row' spacing={3} >
             <Paper className='taskFrame' elevation={1} sx={{ padding: 1, backgroundColor: 'grey', borderRadius: 4, minHeight: 500 }}>
@@ -39,7 +41,7 @@ export default function TaskFrame({ taskList, testConn }) {
                     ToDo
                 </Typography>
                 {toDo && toDo.map((task,i) =>(
-                <TaskCard task={task} testConn={testConn} key={task.name} />
+                <TaskCard task={task} fetchTasks={fetchTasks} key={task.name} />
                 ))}
             </Paper>
             <Paper className='taskFrame' elevation={1} sx={{ padding: 1, backgroundColor: 'grey', borderRadius: 4, minWidth: 200 }}>
@@ -47,7 +49,7 @@ export default function TaskFrame({ taskList, testConn }) {
                     Doing
                 </Typography>
                 {doing && doing.map((task,i) =>(
-                <TaskCard task={task} testConn={testConn} key={task.name} />
+                <TaskCard task={task} fetchTasks={fetchTasks} key={task.name} />
                 ))}
             </Paper>
             <Paper className='taskFrame' elevation={1} sx={{ padding: 1, backgroundColor: 'grey', borderRadius: 4, minWidth: 200 }}>
@@ -55,7 +57,7 @@ export default function TaskFrame({ taskList, testConn }) {
                     Done
                 </Typography>
                 {done && done.map((task,i) =>(
-                <TaskCard task={task} testConn={testConn} key={task.name} />
+                <TaskCard task={task} fetchTasks={fetchTasks} key={task.name} />
                 ))}
             </Paper>
         </Stack>

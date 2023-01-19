@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 
 
 //OBJECT SHAPE: (ID), Name, Description, Assigned, Status
-export default function AddTask({ testConn }) {
+export default function AddTask({ fetchTasks }) {
     //Use variable for starting stay to keep reset DRY
     const baseState = {name:'', description:'', assigned:''}
     //State for task being created
@@ -45,7 +45,7 @@ export default function AddTask({ testConn }) {
                 status: "ToDo"
             }
         }).then((res) => {
-            testConn()
+            fetchTasks()
             emptyInputs()
         }).catch((err) => {
             console.log('POST err: ', err)

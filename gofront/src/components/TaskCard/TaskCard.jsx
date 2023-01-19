@@ -25,7 +25,7 @@ import TaskDetail from '../TaskDetail/TaskDetail';
 // TODO: Add detail view on click
 // Receives one task from map function
 // TODO: Could move some of the card styling to the CSS file to make card jsx more readable
-export default function TaskCard({ task, testConn }) {
+export default function TaskCard({ task, fetchTasks }) {
     //Send ID of specific task with delete route on click, then call get function passed in as a prop
     const delTask = () => {
         const id = task.id
@@ -33,7 +33,7 @@ export default function TaskCard({ task, testConn }) {
             method: 'DELETE',
             url: `http://localhost:8080/tasks/${id}`
         }).then((res) => {
-            testConn()
+            fetchTasks()
         }).catch((err) => {
             console.log('DEL ERROR: ', err)
         })
@@ -51,7 +51,7 @@ export default function TaskCard({ task, testConn }) {
             alignItems: 'center', 
             justifyContent: 'center' 
             }}>
-        <TaskSorter task={task} testConn={testConn} />
+        <TaskSorter task={task} fetchTasks={fetchTasks} />
         <CardContent sx={{padding: 0}}>
             <Typography variant="h5" component="div" >
                 {task.name}
@@ -67,5 +67,7 @@ export default function TaskCard({ task, testConn }) {
     </Card>
   );
 }
+
+//Pass task as a prop to the sorter component which determines which buttons to render at the top of the card (and handles functionality)
 
 
