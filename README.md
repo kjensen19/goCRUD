@@ -7,6 +7,14 @@
 
 
 //TODO:
+    General:
+        1. Add tests
+        2. Start working in branches
+        3. Use normal PR procedure for merging branches etc
+        4. More comments
+        5. Task typing?
+        6. Sortable/searchable tasks by type, user, status etc
+
     FrontEnd:
         1. Task Detail view with edit function
         2. Style
@@ -19,5 +27,15 @@
         9. Avatars for users
         10. Shared boards
         11. Messaging?
+        12. Cypress
+        13. Implement priority coloring
+        14. Enable graphing (chart.js) of task statistics by user etc
 
     Backend:
+        1. Clean up cors (currently allowing all)
+        2. Implement authorization
+        3. Add tables for users, multiple boards(shared)
+        4. Unit tests for APIs (fuzz)
+        5. Expand info in base table (for more detail view)
+        6. Add priority that can be modified to tasks
+        7. Track completed tasks (who, when, maybe how long open)
