@@ -18,7 +18,8 @@ export default function TaskFrame({ taskList, fetchTasks }) {
     const doing = []
     const done = []
     const taskCollection = [toDo, doing, done]
-    //This will eventually be replaced with a call to the boards specific task classifications
+    //This will eventually be replaced with a call to the boards specific task classifications(board info table or
+    //board table depending)
     const taskHeaderArray = ['ToDo', 'Doing', 'Done']
 
     //Switch to sort tasks based on status
