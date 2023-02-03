@@ -63,7 +63,7 @@ export default function AddTask({ fetchTasks }) {
     // Name, Description, Assigned, Status
     // Currently assumes that any task being added is ToDo, could easily add input but it seems more straightforward to use a default
     return (
-        <Stack className='addContainer' elevation={5} sx={{backgroundColor: 'ghostwhite', borderRadius: 4, padding: 1, width: 400, mt: 2, boxShadow: ".5rem .5rem lightgrey"}}>
+        <Stack className='addContainer' elevation={5} sx={{backgroundColor: 'ghostwhite', borderRadius: 4, padding: 1, width: 400, mt: 2, boxShadow: ".25rem .25rem .25rem .25rem grey"}}>
             {showAlert && showAlert === true ? <Alerts setShowAlert={setShowAlert} /> : null}
             <Input onChange={handleChange} type="text" name='name' placeholder='Name' color='secondary' required value={newTask.name} />
             <Input onChange={handleChange} type="text" name='description' placeholder='Description' required value={newTask.description} />
