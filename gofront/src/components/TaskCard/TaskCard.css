@@ -9,5 +9,6 @@
     transform: scale(1.07);
     background-color: rgba(128, 255, 0, 0.467);
     color: ghostwhite;
+    box-shadow: none
 }
 
