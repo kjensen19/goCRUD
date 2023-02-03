@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 
 export default function TaskSorter({ task, fetchTasks }) {
     //Arr of all possible status tags
+    //This can also pull from board table (like in taskFrame for column heads)
     const statusArr = ['ToDo', 'Doing', 'Done']
     //Arr of the statuses that need to appear on the card as buttons (starts empty)
     const buttonArr = []

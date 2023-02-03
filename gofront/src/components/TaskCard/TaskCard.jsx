@@ -44,12 +44,13 @@ export default function TaskCard({ task, fetchTasks }) {
             minWidth: 175, 
             maxHeight: 125, 
             borderRadius: 4, 
-            mb: 1, 
+            mb: 2, 
             mt: 1, 
             display: 'flex', 
             flexFlow: 'column', 
             alignItems: 'center', 
-            justifyContent: 'center' 
+            justifyContent: 'center',
+            boxShadow: ".25rem .25rem .25rem .25rem darkgrey" 
             }}>
         <TaskSorter task={task} fetchTasks={fetchTasks} />
         <CardContent sx={{padding: 0}}>
