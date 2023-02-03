@@ -12,7 +12,7 @@ import Typography from '@mui/material/Typography';
 
 import './TaskCard.css'
 import TaskSorter from '../TaskSorter/TaskSorter';
-import TaskDetail from '../TaskDetail/TaskDetail';
+// import TaskDetail from '../TaskDetail/TaskDetail';
 
 
 

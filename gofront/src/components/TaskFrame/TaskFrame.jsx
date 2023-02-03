@@ -63,7 +63,7 @@ export default function TaskFrame({ taskList, fetchTasks }) {
     )
 }
 
-{/* <Stack direction='row' spacing={3} >
+/* <Stack direction='row' spacing={3} >
 <Paper className='taskFrame' elevation={1} sx={{ padding: 1, backgroundColor: 'grey', borderRadius: 4, minHeight: 500 }}>
     <Typography variant="h5" component="div" sx={{color: 'ghostwhite'}}>
         ToDo
@@ -88,4 +88,4 @@ export default function TaskFrame({ taskList, fetchTasks }) {
     <TaskCard task={task} fetchTasks={fetchTasks} key={task.name} />
     ))}
 </Paper>
-</Stack> */}
+</Stack> */
