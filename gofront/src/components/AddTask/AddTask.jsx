@@ -6,6 +6,9 @@ import  Stack  from '@mui/material/Stack';
 import Input from '@mui/material/Input';
 import Button from '@mui/material/Button';
 
+import Alerts from '../Alerts/Alerts';
+import '../AddTask/AddTask.css'
+
 
 //OBJECT SHAPE: (ID), Name, Description, Assigned, Status
 export default function AddTask({ fetchTasks }) {
@@ -13,6 +16,9 @@ export default function AddTask({ fetchTasks }) {
     const baseState = {name:'', description:'', assigned:''}
     //State for task being created
     const [newTask, setNewTask] = useState(baseState)
+
+    //State to control whether the alert is open
+    const [showAlert, setShowAlert] = useState(false)
 
     //change handler to manage task as an object w/spread operator keeping previous entries
     //name and value on inputs are important as they must match object for this function to work
@@ -49,12 +55,16 @@ export default function AddTask({ fetchTasks }) {
             emptyInputs()
         }).catch((err) => {
             console.log('POST err: ', err)
+            setShowAlert(true)
+            
+
         })
     }
     // Name, Description, Assigned, Status
     // Currently assumes that any task being added is ToDo, could easily add input but it seems more straightforward to use a default
     return (
-        <Stack sx={{backgroundColor: 'ghostwhite', borderRadius: 4, padding: 1, width: 400, mt: 2 }}>
+        <Stack className='addContainer' sx={{backgroundColor: 'ghostwhite', borderRadius: 4, padding: 1, width: 400, mt: 2}}>
+            {showAlert && showAlert === true ? <Alerts setShowAlert={setShowAlert} /> : null}
             <Input onChange={handleChange} type="text" name='name' placeholder='Name' color='secondary' required value={newTask.name} />
             <Input onChange={handleChange} type="text" name='description' placeholder='Description' required value={newTask.description} />
             <Input onChange={handleChange} type="text" name='assigned' placeholder='Assigned'  value={newTask.assigned} />
