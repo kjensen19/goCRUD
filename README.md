@@ -9,15 +9,15 @@
 //TODO:
     General:
         1. Add tests
-        2. Start working in branches
-        3. Use normal PR procedure for merging branches etc
-        4. More comments
+       X 2. Start working in branches
+       X 3. Use normal PR procedure for merging branches etc
+       X 4. More comments
         5. Task typing?
         6. Sortable/searchable tasks by type, user, status etc
 
     FrontEnd:
         1. Task Detail view with edit function
-        2. Style
+       X 2. Style
         3. Assign functionality (for existing tasks)
         4. Logo
         5. Login page
