@@ -35,6 +35,7 @@ export default function TaskCard({ task, fetchTasks }) {
         }).then((res) => {
             fetchTasks()
         }).catch((err) => {
+            alert('Error deleting task')
             console.log('DEL ERROR: ', err)
         })
     }

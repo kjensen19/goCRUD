@@ -34,6 +34,7 @@ export default function TaskSorter({ task, fetchTasks }) {
         }).then((res) => {
             fetchTasks()
           }).catch((err) => {
+            alert('Error updating task, please try again')
             console.log('PUT err: ', err)
           })
     }

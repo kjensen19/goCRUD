@@ -43,7 +43,7 @@ export default function TaskFrame({ taskList, fetchTasks }) {
     //✅TODO: Move taskFrame sx to CSS file (DRY)
     // ✅TODO: look at writing all of this as a function that creates each column based on cards?
         //~11 lines instead of 25
-    // uses MUI stack to hold the three groups and provide styling
+    // ✅uses MUI stack to hold the three groups and provide styling
 
     return (
         <Stack direction='row' spacing={3} >
