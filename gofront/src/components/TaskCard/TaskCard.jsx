@@ -15,10 +15,6 @@ import TaskSorter from '../TaskSorter/TaskSorter';
 // import TaskDetail from '../TaskDetail/TaskDetail';
 
 
-
-
-
-
 // ID, Name, Description, Assigned, Status
 // TODO: Add Avatar/img to task.name display
 // TODO: Add edit to popup card detail component (modal?) with populated, editable fields
