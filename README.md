@@ -27,9 +27,10 @@
         9. Avatars for users
         10. Shared boards
         11. Messaging?
-        12. Cypress
+        12. Cypress/playwright
         13. Implement priority coloring
         14. Enable graphing (chart.js) of task statistics by user etc
+        15. DnD?
 
     Backend:
         1. Clean up cors (currently allowing all)
