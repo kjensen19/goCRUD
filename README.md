@@ -18,16 +18,16 @@
     FrontEnd:
         1. Task Detail view with edit function
        X 2. Style
-        3. Assign functionality (for existing tasks)
+        3. Assign functionality (for existing tasks-- edit)
         4. Logo
         5. Login page
-        6. page routing
+        6. page routing?
         7. Multiple boards
         8. App/Menu/Nav bar
         9. Avatars for users
         10. Shared boards
         11. Messaging?
-        12. Cypress/playwright
+        12. Cypress/Playwright
         13. Implement priority coloring
         14. Enable graphing (chart.js) of task statistics by user etc
         15. DnD?
